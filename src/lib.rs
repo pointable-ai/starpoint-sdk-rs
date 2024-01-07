@@ -1,77 +1,40 @@
-use reqwest::Client;
-use serde::{Deserialize, Serialize};
-use serde_json::Value;
+use reqwest::header;
 
-pub mod distance_metric;
-pub mod id;
-pub mod query_embeddings;
-pub mod tokenizer_type;
+pub mod reader;
+pub mod writer;
 
-use distance_metric::DistanceMetric;
-use id::{DocumentID, ID};
-use query_embeddings::QueryEmbeddings;
-use tokenizer_type::TokenizerType;
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct QueryRequest {
-    pub collection_id: Option<ID>,
-    pub collection_name: Option<String>,
-    pub query_embedding: Option<QueryEmbeddings>,
-    pub query_document_id: Option<DocumentID>,
-    pub text_search_weight: Option<f32>,
-    pub sql: Option<String>,
-    pub params: Option<Vec<Value>>,
-    pub distance_metric: Option<DistanceMetric>,
-    pub text_search_query: Option<Vec<String>>,
-    pub tokenizer_type: Option<TokenizerType>,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct QueryResponse {
-    pub collection_id: ID,
-    pub sql: Option<String>,
-    pub results: Vec<Value>,
-    pub result_count: usize,
-    pub distance_metric: DistanceMetric,
+pub struct StarpointClient {
+    pub reader: reader::Client,
+    pub writer: writer::Client,
 }
 
 const DEFAULT_READER_HOST: &str = "https://reader.starpoint.ai";
 const DEFAULT_WRITER_HOST: &str = "https://writer.starpoint.ai";
 
-pub struct StarpointClient {
-    pub client: reqwest::Client,
-    pub reader_host: String,
-    pub writer_host: String,
-}
-
 impl StarpointClient {
-    pub fn new(reader_host: Option<String>, writer_host: Option<String>) -> Self {
-        let client = Client::builder()
-            .gzip(true)
-            .brotli(true)
+    pub fn new(
+        api_key: &str,
+        custom_reader_host: Option<&str>,
+        custom_writer_host: Option<&str>,
+    ) -> Self {
+        let mut headers = header::HeaderMap::new();
+        headers.insert(
+            "x-starpoint-key",
+            header::HeaderValue::from_str(api_key).expect(
+                "Invalid Starpoint API key. Check `api_key` passed into StarpointClient::new.",
+            ),
+        );
+
+        let reqwest_client = reqwest::Client::builder()
+            .default_headers(headers)
             .build()
-            .expect("Could not build Reqwest client. There is something very wrong here.");
-        let reader_host = reader_host.unwrap_or(DEFAULT_READER_HOST.to_string());
-        let writer_host = writer_host.unwrap_or(DEFAULT_WRITER_HOST.to_string());
+            .expect("Failed to build reqwest client for StarpointClient::new.");
 
-        Self {
-            client,
-            reader_host,
-            writer_host,
-        }
-    }
+        let reader_host = custom_reader_host.unwrap_or(DEFAULT_READER_HOST);
+        let writer_host = custom_writer_host.unwrap_or(DEFAULT_WRITER_HOST);
+        let reader = reader::Client::new_with_client(reader_host, reqwest_client.clone());
+        let writer = writer::Client::new_with_client(writer_host, reqwest_client.clone());
 
-    pub async fn query(&self, request: QueryRequest) -> Result<QueryResponse, reqwest::Error> {
-        let endpoint = format!("{}/api/v1/query", &self.reader_host);
-
-        let response = self
-            .client
-            .post(endpoint)
-            .json::<QueryRequest>(&request)
-            .send()
-            .await?
-            .json::<QueryResponse>()
-            .await?;
-        Ok(response)
+        Self { reader, writer }
     }
 }

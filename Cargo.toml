@@ -2,12 +2,31 @@
 name = "starpoint_sdk"
 version = "0.1.0"
 edition = "2021"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 reqwest = { version = "0.11.23", features = ["json", "brotli", "gzip"] }
+progenitor-client = "0.5.0"
 serde = { version = "1.0.195", features = ["derive"] }
 serde_json = "1.0.111"
 serde_valid = "0.16.3"
+tokio = { default-features = false, features = [
+    "macros",
+    "signal",
+    "rt-multi-thread",
+], version = "1.35" }
 uuid = { version = "1.6.1", features = ["fast-rng", "serde", "v4"] }
+
+[build-dependencies]
+progenitor = "0.5.0"
+prettyplease = "0.2.16"
+reqwest = { version = "0.11.23", features = ["json", "brotli", "gzip"] }
+serde_json = "1.0.111"
+syn = "2.0.48"
+tokio = { default-features = false, features = [
+    "macros",
+    "signal",
+    "rt-multi-thread",
+], version = "1.35" }
