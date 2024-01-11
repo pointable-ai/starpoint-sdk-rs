@@ -148,12 +148,14 @@ pub mod types {
     /**{
   "type": "object",
   "required": [
-    "collection_id",
     "documents"
   ],
   "properties": {
     "collection_id": {
-      "type": "string",
+      "type": [
+        "string",
+        "null"
+      ],
       "format": "uuid"
     },
     "collection_name": {
@@ -203,7 +205,8 @@ pub mod types {
     /// </details>
     #[derive(Clone, Debug, Deserialize, Serialize)]
     pub struct CreateDocumentsBody {
-        pub collection_id: uuid::Uuid,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub collection_id: Option<uuid::Uuid>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub collection_name: Option<String>,
         pub documents: Vec<CreateDocumentsBodyDocumentsItem>,
@@ -308,12 +311,14 @@ pub mod types {
     /**{
   "type": "object",
   "required": [
-    "collection_id",
     "documents"
   ],
   "properties": {
     "collection_id": {
-      "type": "string",
+      "type": [
+        "string",
+        "null"
+      ],
       "format": "uuid"
     },
     "collection_name": {
@@ -363,7 +368,8 @@ pub mod types {
     /// </details>
     #[derive(Clone, Debug, Deserialize, Serialize)]
     pub struct CreateDocumentsRequest {
-        pub collection_id: uuid::Uuid,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub collection_id: Option<uuid::Uuid>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub collection_name: Option<String>,
         pub documents: Vec<CreateDocumentsRequestDocumentsItem>,
@@ -598,12 +604,14 @@ pub mod types {
     /**{
   "type": "object",
   "required": [
-    "collection_id",
     "documents"
   ],
   "properties": {
     "collection_id": {
-      "type": "string",
+      "type": [
+        "string",
+        "null"
+      ],
       "format": "uuid"
     },
     "collection_name": {
@@ -624,7 +632,8 @@ pub mod types {
     /// </details>
     #[derive(Clone, Debug, Deserialize, Serialize)]
     pub struct DeleteDocumentsBody {
-        pub collection_id: uuid::Uuid,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub collection_id: Option<uuid::Uuid>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub collection_name: Option<String>,
         pub documents: Vec<String>,

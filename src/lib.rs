@@ -1,21 +1,25 @@
 use reqwest::header;
 
+pub mod embedding;
 pub mod reader;
 pub mod writer;
 
 pub struct StarpointClient {
     pub reader: reader::Client,
     pub writer: writer::Client,
+    pub embedding: embedding::Client,
 }
 
 const DEFAULT_READER_HOST: &str = "https://reader.starpoint.ai";
 const DEFAULT_WRITER_HOST: &str = "https://writer.starpoint.ai";
+const DEFAULT_EMBEDDING_HOST: &str = "https://embedding.starpoint.ai";
 
 impl StarpointClient {
     pub fn new(
         api_key: &str,
         custom_reader_host: Option<&str>,
         custom_writer_host: Option<&str>,
+        custom_embedding_host: Option<&str>,
     ) -> Self {
         let mut headers = header::HeaderMap::new();
         headers.insert(
@@ -31,10 +35,18 @@ impl StarpointClient {
             .expect("Failed to build reqwest client for StarpointClient::new.");
 
         let reader_host = custom_reader_host.unwrap_or(DEFAULT_READER_HOST);
-        let writer_host = custom_writer_host.unwrap_or(DEFAULT_WRITER_HOST);
         let reader = reader::Client::new_with_client(reader_host, reqwest_client.clone());
+
+        let writer_host = custom_writer_host.unwrap_or(DEFAULT_WRITER_HOST);
         let writer = writer::Client::new_with_client(writer_host, reqwest_client.clone());
 
-        Self { reader, writer }
+        let embedding_host = custom_embedding_host.unwrap_or(DEFAULT_EMBEDDING_HOST);
+        let embedding = embedding::Client::new_with_client(embedding_host, reqwest_client.clone());
+
+        Self {
+            reader,
+            writer,
+            embedding,
+        }
     }
 }

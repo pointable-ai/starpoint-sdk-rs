@@ -23,9 +23,11 @@ async fn main() -> Result<(), Box<dyn Error>> {
     if Ok("true".to_owned()) == std::env::var("___UNSAFE_REGENERATE_SDK") {
         let reader_url = "https://reader.starpoint.ai/api/v1/openapi.json";
         let writer_url = "https://writer.starpoint.ai/api/v1/openapi.json";
+        let embedding_url = "https://embedding.starpoint.ai/api/v1/openapi.json";
 
         generate_sdk_file(reader_url, "reader.rs").await?;
         generate_sdk_file(writer_url, "writer.rs").await?;
+        generate_sdk_file(embedding_url, "embedding.rs").await?;
     }
     Ok(())
 }
