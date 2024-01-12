@@ -44,6 +44,11 @@ pub mod types {
             value.clone()
         }
     }
+    impl InferSchemaBody {
+        pub fn builder() -> builder::InferSchemaBody {
+            Default::default()
+        }
+    }
     ///InferSchemaResponse
     ///
     /// <details><summary>JSON schema</summary>
@@ -100,6 +105,11 @@ pub mod types {
             value.clone()
         }
     }
+    impl InferSchemaResponse {
+        pub fn builder() -> builder::InferSchemaResponse {
+            Default::default()
+        }
+    }
     ///InferSchemaResponseInferredSchema
     ///
     /// <details><summary>JSON schema</summary>
@@ -150,6 +160,11 @@ pub mod types {
     impl From<&InferSchemaResponseInferredSchema> for InferSchemaResponseInferredSchema {
         fn from(value: &InferSchemaResponseInferredSchema) -> Self {
             value.clone()
+        }
+    }
+    impl InferSchemaResponseInferredSchema {
+        pub fn builder() -> builder::InferSchemaResponseInferredSchema {
+            Default::default()
         }
     }
     ///InferSchemaResponseInferredSchemaTypesValueItem
@@ -376,6 +391,11 @@ pub mod types {
             value.clone()
         }
     }
+    impl QueryDocumentsBody {
+        pub fn builder() -> builder::QueryDocumentsBody {
+            Default::default()
+        }
+    }
     ///QueryDocumentsBodyDistanceMetric
     ///
     /// <details><summary>JSON schema</summary>
@@ -493,6 +513,11 @@ pub mod types {
     impl From<&QueryDocumentsBodyQueryEmbedding> for QueryDocumentsBodyQueryEmbedding {
         fn from(value: &QueryDocumentsBodyQueryEmbedding) -> Self {
             value.clone()
+        }
+    }
+    impl QueryDocumentsBodyQueryEmbedding {
+        pub fn builder() -> builder::QueryDocumentsBodyQueryEmbedding {
+            Default::default()
         }
     }
     ///QueryDocumentsBodyTokenizerType
@@ -630,6 +655,11 @@ pub mod types {
     impl From<&QueryDocumentsResponse> for QueryDocumentsResponse {
         fn from(value: &QueryDocumentsResponse) -> Self {
             value.clone()
+        }
+    }
+    impl QueryDocumentsResponse {
+        pub fn builder() -> builder::QueryDocumentsResponse {
+            Default::default()
         }
     }
     ///QueryDocumentsResponseDistanceMetric
@@ -852,6 +882,11 @@ pub mod types {
             value.clone()
         }
     }
+    impl QueryRequest {
+        pub fn builder() -> builder::QueryRequest {
+            Default::default()
+        }
+    }
     ///QueryRequestDistanceMetric
     ///
     /// <details><summary>JSON schema</summary>
@@ -971,6 +1006,11 @@ pub mod types {
             value.clone()
         }
     }
+    impl QueryRequestQueryEmbedding {
+        pub fn builder() -> builder::QueryRequestQueryEmbedding {
+            Default::default()
+        }
+    }
     ///QueryRequestTokenizerType
     ///
     /// <details><summary>JSON schema</summary>
@@ -1049,6 +1089,876 @@ pub mod types {
             value.parse()
         }
     }
+    pub mod builder {
+        #[derive(Clone, Debug)]
+        pub struct InferSchemaBody {
+            collection_id: Result<Option<uuid::Uuid>, String>,
+            collection_name: Result<Option<String>, String>,
+        }
+        impl Default for InferSchemaBody {
+            fn default() -> Self {
+                Self {
+                    collection_id: Ok(Default::default()),
+                    collection_name: Ok(Default::default()),
+                }
+            }
+        }
+        impl InferSchemaBody {
+            pub fn collection_id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<uuid::Uuid>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_id: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn collection_name<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_name = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_name: {}", e
+                        )
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<InferSchemaBody> for super::InferSchemaBody {
+            type Error = String;
+            fn try_from(value: InferSchemaBody) -> Result<Self, String> {
+                Ok(Self {
+                    collection_id: value.collection_id?,
+                    collection_name: value.collection_name?,
+                })
+            }
+        }
+        impl From<super::InferSchemaBody> for InferSchemaBody {
+            fn from(value: super::InferSchemaBody) -> Self {
+                Self {
+                    collection_id: Ok(value.collection_id),
+                    collection_name: Ok(value.collection_name),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct InferSchemaResponse {
+            inferred_schema: Result<super::InferSchemaResponseInferredSchema, String>,
+        }
+        impl Default for InferSchemaResponse {
+            fn default() -> Self {
+                Self {
+                    inferred_schema: Err(
+                        "no value supplied for inferred_schema".to_string(),
+                    ),
+                }
+            }
+        }
+        impl InferSchemaResponse {
+            pub fn inferred_schema<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<super::InferSchemaResponseInferredSchema>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .inferred_schema = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for inferred_schema: {}", e
+                        )
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<InferSchemaResponse> for super::InferSchemaResponse {
+            type Error = String;
+            fn try_from(value: InferSchemaResponse) -> Result<Self, String> {
+                Ok(Self {
+                    inferred_schema: value.inferred_schema?,
+                })
+            }
+        }
+        impl From<super::InferSchemaResponse> for InferSchemaResponse {
+            fn from(value: super::InferSchemaResponse) -> Self {
+                Self {
+                    inferred_schema: Ok(value.inferred_schema),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct InferSchemaResponseInferredSchema {
+            nullability: Result<std::collections::HashMap<String, bool>, String>,
+            types: Result<
+                std::collections::HashMap<
+                    String,
+                    Vec<super::InferSchemaResponseInferredSchemaTypesValueItem>,
+                >,
+                String,
+            >,
+        }
+        impl Default for InferSchemaResponseInferredSchema {
+            fn default() -> Self {
+                Self {
+                    nullability: Err("no value supplied for nullability".to_string()),
+                    types: Err("no value supplied for types".to_string()),
+                }
+            }
+        }
+        impl InferSchemaResponseInferredSchema {
+            pub fn nullability<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<std::collections::HashMap<String, bool>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .nullability = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for nullability: {}", e)
+                    });
+                self
+            }
+            pub fn types<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<
+                    std::collections::HashMap<
+                        String,
+                        Vec<super::InferSchemaResponseInferredSchemaTypesValueItem>,
+                    >,
+                >,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .types = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for types: {}", e)
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<InferSchemaResponseInferredSchema>
+        for super::InferSchemaResponseInferredSchema {
+            type Error = String;
+            fn try_from(
+                value: InferSchemaResponseInferredSchema,
+            ) -> Result<Self, String> {
+                Ok(Self {
+                    nullability: value.nullability?,
+                    types: value.types?,
+                })
+            }
+        }
+        impl From<super::InferSchemaResponseInferredSchema>
+        for InferSchemaResponseInferredSchema {
+            fn from(value: super::InferSchemaResponseInferredSchema) -> Self {
+                Self {
+                    nullability: Ok(value.nullability),
+                    types: Ok(value.types),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct QueryDocumentsBody {
+            collection_id: Result<Option<uuid::Uuid>, String>,
+            collection_name: Result<Option<String>, String>,
+            distance_metric: Result<
+                Option<super::QueryDocumentsBodyDistanceMetric>,
+                String,
+            >,
+            params: Result<Option<Vec<serde_json::Value>>, String>,
+            query_document_id: Result<Option<String>, String>,
+            query_embedding: Result<
+                Option<super::QueryDocumentsBodyQueryEmbedding>,
+                String,
+            >,
+            sql: Result<Option<String>, String>,
+            text_search_query: Result<Option<Vec<String>>, String>,
+            text_search_weight: Result<Option<f32>, String>,
+            tokenizer_type: Result<
+                Option<super::QueryDocumentsBodyTokenizerType>,
+                String,
+            >,
+        }
+        impl Default for QueryDocumentsBody {
+            fn default() -> Self {
+                Self {
+                    collection_id: Ok(Default::default()),
+                    collection_name: Ok(Default::default()),
+                    distance_metric: Ok(Default::default()),
+                    params: Ok(Default::default()),
+                    query_document_id: Ok(Default::default()),
+                    query_embedding: Ok(Default::default()),
+                    sql: Ok(Default::default()),
+                    text_search_query: Ok(Default::default()),
+                    text_search_weight: Ok(Default::default()),
+                    tokenizer_type: Ok(Default::default()),
+                }
+            }
+        }
+        impl QueryDocumentsBody {
+            pub fn collection_id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<uuid::Uuid>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_id: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn collection_name<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_name = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_name: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn distance_metric<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<
+                    Option<super::QueryDocumentsBodyDistanceMetric>,
+                >,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .distance_metric = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for distance_metric: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn params<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<Vec<serde_json::Value>>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .params = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for params: {}", e)
+                    });
+                self
+            }
+            pub fn query_document_id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .query_document_id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for query_document_id: {}",
+                            e
+                        )
+                    });
+                self
+            }
+            pub fn query_embedding<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<
+                    Option<super::QueryDocumentsBodyQueryEmbedding>,
+                >,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .query_embedding = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for query_embedding: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn sql<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .sql = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for sql: {}", e)
+                    });
+                self
+            }
+            pub fn text_search_query<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<Vec<String>>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .text_search_query = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for text_search_query: {}",
+                            e
+                        )
+                    });
+                self
+            }
+            pub fn text_search_weight<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<f32>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .text_search_weight = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for text_search_weight: {}",
+                            e
+                        )
+                    });
+                self
+            }
+            pub fn tokenizer_type<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<super::QueryDocumentsBodyTokenizerType>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .tokenizer_type = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for tokenizer_type: {}", e
+                        )
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<QueryDocumentsBody> for super::QueryDocumentsBody {
+            type Error = String;
+            fn try_from(value: QueryDocumentsBody) -> Result<Self, String> {
+                Ok(Self {
+                    collection_id: value.collection_id?,
+                    collection_name: value.collection_name?,
+                    distance_metric: value.distance_metric?,
+                    params: value.params?,
+                    query_document_id: value.query_document_id?,
+                    query_embedding: value.query_embedding?,
+                    sql: value.sql?,
+                    text_search_query: value.text_search_query?,
+                    text_search_weight: value.text_search_weight?,
+                    tokenizer_type: value.tokenizer_type?,
+                })
+            }
+        }
+        impl From<super::QueryDocumentsBody> for QueryDocumentsBody {
+            fn from(value: super::QueryDocumentsBody) -> Self {
+                Self {
+                    collection_id: Ok(value.collection_id),
+                    collection_name: Ok(value.collection_name),
+                    distance_metric: Ok(value.distance_metric),
+                    params: Ok(value.params),
+                    query_document_id: Ok(value.query_document_id),
+                    query_embedding: Ok(value.query_embedding),
+                    sql: Ok(value.sql),
+                    text_search_query: Ok(value.text_search_query),
+                    text_search_weight: Ok(value.text_search_weight),
+                    tokenizer_type: Ok(value.tokenizer_type),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct QueryDocumentsBodyQueryEmbedding {
+            dimensionality: Result<u64, String>,
+            values: Result<Vec<f32>, String>,
+        }
+        impl Default for QueryDocumentsBodyQueryEmbedding {
+            fn default() -> Self {
+                Self {
+                    dimensionality: Err(
+                        "no value supplied for dimensionality".to_string(),
+                    ),
+                    values: Err("no value supplied for values".to_string()),
+                }
+            }
+        }
+        impl QueryDocumentsBodyQueryEmbedding {
+            pub fn dimensionality<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<u64>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .dimensionality = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for dimensionality: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn values<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Vec<f32>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .values = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for values: {}", e)
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<QueryDocumentsBodyQueryEmbedding>
+        for super::QueryDocumentsBodyQueryEmbedding {
+            type Error = String;
+            fn try_from(
+                value: QueryDocumentsBodyQueryEmbedding,
+            ) -> Result<Self, String> {
+                Ok(Self {
+                    dimensionality: value.dimensionality?,
+                    values: value.values?,
+                })
+            }
+        }
+        impl From<super::QueryDocumentsBodyQueryEmbedding>
+        for QueryDocumentsBodyQueryEmbedding {
+            fn from(value: super::QueryDocumentsBodyQueryEmbedding) -> Self {
+                Self {
+                    dimensionality: Ok(value.dimensionality),
+                    values: Ok(value.values),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct QueryDocumentsResponse {
+            collection_id: Result<uuid::Uuid, String>,
+            distance_metric: Result<super::QueryDocumentsResponseDistanceMetric, String>,
+            result_count: Result<u64, String>,
+            results: Result<Vec<serde_json::Value>, String>,
+            sql: Result<Option<String>, String>,
+        }
+        impl Default for QueryDocumentsResponse {
+            fn default() -> Self {
+                Self {
+                    collection_id: Err(
+                        "no value supplied for collection_id".to_string(),
+                    ),
+                    distance_metric: Err(
+                        "no value supplied for distance_metric".to_string(),
+                    ),
+                    result_count: Err("no value supplied for result_count".to_string()),
+                    results: Err("no value supplied for results".to_string()),
+                    sql: Ok(Default::default()),
+                }
+            }
+        }
+        impl QueryDocumentsResponse {
+            pub fn collection_id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<uuid::Uuid>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_id: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn distance_metric<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<super::QueryDocumentsResponseDistanceMetric>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .distance_metric = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for distance_metric: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn result_count<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<u64>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .result_count = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for result_count: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn results<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Vec<serde_json::Value>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .results = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for results: {}", e)
+                    });
+                self
+            }
+            pub fn sql<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .sql = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for sql: {}", e)
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<QueryDocumentsResponse>
+        for super::QueryDocumentsResponse {
+            type Error = String;
+            fn try_from(value: QueryDocumentsResponse) -> Result<Self, String> {
+                Ok(Self {
+                    collection_id: value.collection_id?,
+                    distance_metric: value.distance_metric?,
+                    result_count: value.result_count?,
+                    results: value.results?,
+                    sql: value.sql?,
+                })
+            }
+        }
+        impl From<super::QueryDocumentsResponse> for QueryDocumentsResponse {
+            fn from(value: super::QueryDocumentsResponse) -> Self {
+                Self {
+                    collection_id: Ok(value.collection_id),
+                    distance_metric: Ok(value.distance_metric),
+                    result_count: Ok(value.result_count),
+                    results: Ok(value.results),
+                    sql: Ok(value.sql),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct QueryRequest {
+            collection_id: Result<Option<uuid::Uuid>, String>,
+            collection_name: Result<Option<String>, String>,
+            distance_metric: Result<Option<super::QueryRequestDistanceMetric>, String>,
+            params: Result<Option<Vec<serde_json::Value>>, String>,
+            query_document_id: Result<Option<String>, String>,
+            query_embedding: Result<Option<super::QueryRequestQueryEmbedding>, String>,
+            sql: Result<Option<String>, String>,
+            text_search_query: Result<Option<Vec<String>>, String>,
+            text_search_weight: Result<Option<f32>, String>,
+            tokenizer_type: Result<Option<super::QueryRequestTokenizerType>, String>,
+        }
+        impl Default for QueryRequest {
+            fn default() -> Self {
+                Self {
+                    collection_id: Ok(Default::default()),
+                    collection_name: Ok(Default::default()),
+                    distance_metric: Ok(Default::default()),
+                    params: Ok(Default::default()),
+                    query_document_id: Ok(Default::default()),
+                    query_embedding: Ok(Default::default()),
+                    sql: Ok(Default::default()),
+                    text_search_query: Ok(Default::default()),
+                    text_search_weight: Ok(Default::default()),
+                    tokenizer_type: Ok(Default::default()),
+                }
+            }
+        }
+        impl QueryRequest {
+            pub fn collection_id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<uuid::Uuid>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_id: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn collection_name<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_name = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_name: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn distance_metric<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<super::QueryRequestDistanceMetric>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .distance_metric = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for distance_metric: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn params<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<Vec<serde_json::Value>>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .params = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for params: {}", e)
+                    });
+                self
+            }
+            pub fn query_document_id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .query_document_id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for query_document_id: {}",
+                            e
+                        )
+                    });
+                self
+            }
+            pub fn query_embedding<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<super::QueryRequestQueryEmbedding>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .query_embedding = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for query_embedding: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn sql<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .sql = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for sql: {}", e)
+                    });
+                self
+            }
+            pub fn text_search_query<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<Vec<String>>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .text_search_query = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for text_search_query: {}",
+                            e
+                        )
+                    });
+                self
+            }
+            pub fn text_search_weight<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<f32>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .text_search_weight = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for text_search_weight: {}",
+                            e
+                        )
+                    });
+                self
+            }
+            pub fn tokenizer_type<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<super::QueryRequestTokenizerType>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .tokenizer_type = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for tokenizer_type: {}", e
+                        )
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<QueryRequest> for super::QueryRequest {
+            type Error = String;
+            fn try_from(value: QueryRequest) -> Result<Self, String> {
+                Ok(Self {
+                    collection_id: value.collection_id?,
+                    collection_name: value.collection_name?,
+                    distance_metric: value.distance_metric?,
+                    params: value.params?,
+                    query_document_id: value.query_document_id?,
+                    query_embedding: value.query_embedding?,
+                    sql: value.sql?,
+                    text_search_query: value.text_search_query?,
+                    text_search_weight: value.text_search_weight?,
+                    tokenizer_type: value.tokenizer_type?,
+                })
+            }
+        }
+        impl From<super::QueryRequest> for QueryRequest {
+            fn from(value: super::QueryRequest) -> Self {
+                Self {
+                    collection_id: Ok(value.collection_id),
+                    collection_name: Ok(value.collection_name),
+                    distance_metric: Ok(value.distance_metric),
+                    params: Ok(value.params),
+                    query_document_id: Ok(value.query_document_id),
+                    query_embedding: Ok(value.query_embedding),
+                    sql: Ok(value.sql),
+                    text_search_query: Ok(value.text_search_query),
+                    text_search_weight: Ok(value.text_search_weight),
+                    tokenizer_type: Ok(value.tokenizer_type),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct QueryRequestQueryEmbedding {
+            dimensionality: Result<u64, String>,
+            values: Result<Vec<f32>, String>,
+        }
+        impl Default for QueryRequestQueryEmbedding {
+            fn default() -> Self {
+                Self {
+                    dimensionality: Err(
+                        "no value supplied for dimensionality".to_string(),
+                    ),
+                    values: Err("no value supplied for values".to_string()),
+                }
+            }
+        }
+        impl QueryRequestQueryEmbedding {
+            pub fn dimensionality<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<u64>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .dimensionality = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for dimensionality: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn values<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Vec<f32>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .values = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for values: {}", e)
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<QueryRequestQueryEmbedding>
+        for super::QueryRequestQueryEmbedding {
+            type Error = String;
+            fn try_from(value: QueryRequestQueryEmbedding) -> Result<Self, String> {
+                Ok(Self {
+                    dimensionality: value.dimensionality?,
+                    values: value.values?,
+                })
+            }
+        }
+        impl From<super::QueryRequestQueryEmbedding> for QueryRequestQueryEmbedding {
+            fn from(value: super::QueryRequestQueryEmbedding) -> Self {
+                Self {
+                    dimensionality: Ok(value.dimensionality),
+                    values: Ok(value.values),
+                }
+            }
+        }
+    }
 }
 #[derive(Clone, Debug)]
 /**Client for grimoire
@@ -1107,53 +2017,167 @@ impl Client {
 impl Client {
     /**Sends a `POST` request to `/api/v1/infer_schema`
 
-*/
-    pub async fn infer_schema<'a>(
-        &'a self,
-        body: &'a types::InferSchemaBody,
-    ) -> Result<ResponseValue<types::InferSchemaResponse>, Error<()>> {
-        let url = format!("{}/api/v1/infer_schema", self.baseurl,);
-        let request = self
-            .client
-            .post(url)
-            .header(
-                reqwest::header::ACCEPT,
-                reqwest::header::HeaderValue::from_static("application/json"),
-            )
-            .json(&body)
-            .build()?;
-        let result = self.client.execute(request).await;
-        let response = result?;
-        match response.status().as_u16() {
-            200u16 => ResponseValue::from_response(response).await,
-            _ => Err(Error::UnexpectedResponse(response)),
-        }
+```ignore
+let response = client.infer_schema()
+    .body(body)
+    .send()
+    .await;
+```*/
+    pub fn infer_schema(&self) -> builder::InferSchema {
+        builder::InferSchema::new(self)
     }
     /**Sends a `POST` request to `/api/v1/query`
 
-*/
-    pub async fn query_documents<'a>(
-        &'a self,
-        body: &'a types::QueryDocumentsBody,
-    ) -> Result<ResponseValue<types::QueryDocumentsResponse>, Error<()>> {
-        let url = format!("{}/api/v1/query", self.baseurl,);
-        let request = self
-            .client
-            .post(url)
-            .header(
-                reqwest::header::ACCEPT,
-                reqwest::header::HeaderValue::from_static("application/json"),
-            )
-            .json(&body)
-            .build()?;
-        let result = self.client.execute(request).await;
-        let response = result?;
-        match response.status().as_u16() {
-            200u16 => ResponseValue::from_response(response).await,
-            _ => Err(Error::UnexpectedResponse(response)),
+```ignore
+let response = client.query_documents()
+    .body(body)
+    .send()
+    .await;
+```*/
+    pub fn query_documents(&self) -> builder::QueryDocuments {
+        builder::QueryDocuments::new(self)
+    }
+}
+pub mod builder {
+    use super::types;
+    #[allow(unused_imports)]
+    use super::{
+        encode_path, ByteStream, Error, HeaderMap, HeaderValue, RequestBuilderExt,
+        ResponseValue,
+    };
+    /**Builder for [`Client::infer_schema`]
+
+[`Client::infer_schema`]: super::Client::infer_schema*/
+    #[derive(Debug, Clone)]
+    pub struct InferSchema<'a> {
+        client: &'a super::Client,
+        body: Result<types::builder::InferSchemaBody, String>,
+    }
+    impl<'a> InferSchema<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                body: Ok(types::builder::InferSchemaBody::default()),
+            }
+        }
+        pub fn body<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::InferSchemaBody>,
+            <V as std::convert::TryInto<
+                types::InferSchemaBody,
+            >>::Error: std::fmt::Display,
+        {
+            self
+                .body = value
+                .try_into()
+                .map(From::from)
+                .map_err(|s| {
+                    format!("conversion to `InferSchemaBody` for body failed: {}", s)
+                });
+            self
+        }
+        pub fn body_map<F>(mut self, f: F) -> Self
+        where
+            F: std::ops::FnOnce(
+                types::builder::InferSchemaBody,
+            ) -> types::builder::InferSchemaBody,
+        {
+            self.body = self.body.map(f);
+            self
+        }
+        ///Sends a `POST` request to `/api/v1/infer_schema`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::InferSchemaResponse>, Error<()>> {
+            let Self { client, body } = self;
+            let body = body
+                .and_then(std::convert::TryInto::<types::InferSchemaBody>::try_into)
+                .map_err(Error::InvalidRequest)?;
+            let url = format!("{}/api/v1/infer_schema", client.baseurl,);
+            let request = client
+                .client
+                .post(url)
+                .header(
+                    reqwest::header::ACCEPT,
+                    reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .json(&body)
+                .build()?;
+            let result = client.client.execute(request).await;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response(response).await,
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::query_documents`]
+
+[`Client::query_documents`]: super::Client::query_documents*/
+    #[derive(Debug, Clone)]
+    pub struct QueryDocuments<'a> {
+        client: &'a super::Client,
+        body: Result<types::builder::QueryDocumentsBody, String>,
+    }
+    impl<'a> QueryDocuments<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                body: Ok(types::builder::QueryDocumentsBody::default()),
+            }
+        }
+        pub fn body<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::QueryDocumentsBody>,
+            <V as std::convert::TryInto<
+                types::QueryDocumentsBody,
+            >>::Error: std::fmt::Display,
+        {
+            self
+                .body = value
+                .try_into()
+                .map(From::from)
+                .map_err(|s| {
+                    format!("conversion to `QueryDocumentsBody` for body failed: {}", s)
+                });
+            self
+        }
+        pub fn body_map<F>(mut self, f: F) -> Self
+        where
+            F: std::ops::FnOnce(
+                types::builder::QueryDocumentsBody,
+            ) -> types::builder::QueryDocumentsBody,
+        {
+            self.body = self.body.map(f);
+            self
+        }
+        ///Sends a `POST` request to `/api/v1/query`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::QueryDocumentsResponse>, Error<()>> {
+            let Self { client, body } = self;
+            let body = body
+                .and_then(std::convert::TryInto::<types::QueryDocumentsBody>::try_into)
+                .map_err(Error::InvalidRequest)?;
+            let url = format!("{}/api/v1/query", client.baseurl,);
+            let request = client
+                .client
+                .post(url)
+                .header(
+                    reqwest::header::ACCEPT,
+                    reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .json(&body)
+                .build()?;
+            let result = client.client.execute(request).await;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response(response).await,
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
         }
     }
 }
 pub mod prelude {
-    pub use super::Client;
+    pub use self::super::Client;
 }
