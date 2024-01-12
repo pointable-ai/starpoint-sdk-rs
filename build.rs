@@ -1,9 +1,13 @@
 use std::error::Error;
 
+use progenitor::GenerationSettings;
+
 async fn generate_sdk_file(url: &str, out_file: &str) -> Result<(), Box<dyn Error>> {
     let resp = reqwest::get(url).await?.text().await?;
     let spec = serde_json::from_str(&resp).unwrap();
-    let mut generator = progenitor::Generator::default();
+    let mut settings = GenerationSettings::new();
+    settings.with_interface(progenitor::InterfaceStyle::Builder);
+    let mut generator = progenitor::Generator::new(&settings);
 
     let tokens = generator.generate_tokens(&spec).unwrap();
     let ast = syn::parse2(tokens).unwrap();
