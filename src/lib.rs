@@ -4,6 +4,7 @@ pub mod embedding;
 pub mod reader;
 pub mod writer;
 
+#[derive(Clone, Debug)]
 pub struct StarpointClient {
     pub reader: reader::Client,
     pub writer: writer::Client,
