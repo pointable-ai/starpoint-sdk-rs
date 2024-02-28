@@ -94,8 +94,7 @@ pub mod types {
       "format": "int32"
     },
     "name": {
-      "type": "string",
-      "format": "uuid"
+      "type": "string"
     }
   }
 }*/
@@ -104,7 +103,7 @@ pub mod types {
     #[derive(Clone, Debug, Deserialize, Serialize)]
     pub struct CreateCollectionBody {
         pub dimensionality: i32,
-        pub name: uuid::Uuid,
+        pub name: String,
     }
     impl From<&CreateCollectionBody> for CreateCollectionBody {
         fn from(value: &CreateCollectionBody) -> Self {
@@ -995,7 +994,7 @@ pub mod types {
         #[derive(Clone, Debug)]
         pub struct CreateCollectionBody {
             dimensionality: Result<i32, String>,
-            name: Result<uuid::Uuid, String>,
+            name: Result<String, String>,
         }
         impl Default for CreateCollectionBody {
             fn default() -> Self {
@@ -1025,7 +1024,7 @@ pub mod types {
             }
             pub fn name<T>(mut self, value: T) -> Self
             where
-                T: std::convert::TryInto<uuid::Uuid>,
+                T: std::convert::TryInto<String>,
                 T::Error: std::fmt::Display,
             {
                 self
