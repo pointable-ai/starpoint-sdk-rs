@@ -600,6 +600,47 @@ pub mod types {
             Default::default()
         }
     }
+    ///CreateIndicesBody
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    /**{
+  "type": "object",
+  "properties": {
+    "collection_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "collection_name": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}*/
+    /// ```
+    /// </details>
+    #[derive(Clone, Debug, Deserialize, Serialize)]
+    pub struct CreateIndicesBody {
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub collection_id: Option<String>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub collection_name: Option<String>,
+    }
+    impl From<&CreateIndicesBody> for CreateIndicesBody {
+        fn from(value: &CreateIndicesBody) -> Self {
+            value.clone()
+        }
+    }
+    impl CreateIndicesBody {
+        pub fn builder() -> builder::CreateIndicesBody {
+            Default::default()
+        }
+    }
     ///DeleteCollectionBody
     ///
     /// <details><summary>JSON schema</summary>
@@ -1670,6 +1711,68 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct CreateIndicesBody {
+            collection_id: Result<Option<String>, String>,
+            collection_name: Result<Option<String>, String>,
+        }
+        impl Default for CreateIndicesBody {
+            fn default() -> Self {
+                Self {
+                    collection_id: Ok(Default::default()),
+                    collection_name: Ok(Default::default()),
+                }
+            }
+        }
+        impl CreateIndicesBody {
+            pub fn collection_id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_id: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn collection_name<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_name = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_name: {}", e
+                        )
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<CreateIndicesBody> for super::CreateIndicesBody {
+            type Error = String;
+            fn try_from(value: CreateIndicesBody) -> Result<Self, String> {
+                Ok(Self {
+                    collection_id: value.collection_id?,
+                    collection_name: value.collection_name?,
+                })
+            }
+        }
+        impl From<super::CreateIndicesBody> for CreateIndicesBody {
+            fn from(value: super::CreateIndicesBody) -> Self {
+                Self {
+                    collection_id: Ok(value.collection_id),
+                    collection_name: Ok(value.collection_name),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct DeleteCollectionBody {
             collection_id: Result<uuid::Uuid, String>,
         }
@@ -2210,6 +2313,17 @@ let response = client.delete_documents()
     pub fn delete_documents(&self) -> builder::DeleteDocuments {
         builder::DeleteDocuments::new(self)
     }
+    /**Sends a `POST` request to `/api/v1/index`
+
+```ignore
+let response = client.create_indices()
+    .body(body)
+    .send()
+    .await;
+```*/
+    pub fn create_indices(&self) -> builder::CreateIndices {
+        builder::CreateIndices::new(self)
+    }
 }
 pub mod builder {
     use super::types;
@@ -2585,6 +2699,62 @@ pub mod builder {
             let response = result?;
             match response.status().as_u16() {
                 200u16 => ResponseValue::from_response(response).await,
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::create_indices`]
+
+[`Client::create_indices`]: super::Client::create_indices*/
+    #[derive(Debug, Clone)]
+    pub struct CreateIndices<'a> {
+        client: &'a super::Client,
+        body: Result<types::builder::CreateIndicesBody, String>,
+    }
+    impl<'a> CreateIndices<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                body: Ok(types::builder::CreateIndicesBody::default()),
+            }
+        }
+        pub fn body<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::CreateIndicesBody>,
+            <V as std::convert::TryInto<
+                types::CreateIndicesBody,
+            >>::Error: std::fmt::Display,
+        {
+            self
+                .body = value
+                .try_into()
+                .map(From::from)
+                .map_err(|s| {
+                    format!("conversion to `CreateIndicesBody` for body failed: {}", s)
+                });
+            self
+        }
+        pub fn body_map<F>(mut self, f: F) -> Self
+        where
+            F: std::ops::FnOnce(
+                types::builder::CreateIndicesBody,
+            ) -> types::builder::CreateIndicesBody,
+        {
+            self.body = self.body.map(f);
+            self
+        }
+        ///Sends a `POST` request to `/api/v1/index`
+        pub async fn send(self) -> Result<ResponseValue<()>, Error<()>> {
+            let Self { client, body } = self;
+            let body = body
+                .and_then(std::convert::TryInto::<types::CreateIndicesBody>::try_into)
+                .map_err(Error::InvalidRequest)?;
+            let url = format!("{}/api/v1/index", client.baseurl,);
+            let request = client.client.post(url).json(&body).build()?;
+            let result = client.client.execute(request).await;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => Ok(ResponseValue::empty(response)),
                 _ => Err(Error::UnexpectedResponse(response)),
             }
         }

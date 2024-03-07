@@ -7,253 +7,6 @@ pub mod types {
     use serde::{Deserialize, Serialize};
     #[allow(unused_imports)]
     use std::convert::TryFrom;
-    ///InferSchemaBody
-    ///
-    /// <details><summary>JSON schema</summary>
-    ///
-    /// ```json
-    /**{
-  "type": "object",
-  "properties": {
-    "collection_id": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "format": "uuid"
-    },
-    "collection_name": {
-      "type": [
-        "string",
-        "null"
-      ]
-    }
-  }
-}*/
-    /// ```
-    /// </details>
-    #[derive(Clone, Debug, Deserialize, Serialize)]
-    pub struct InferSchemaBody {
-        #[serde(default, skip_serializing_if = "Option::is_none")]
-        pub collection_id: Option<uuid::Uuid>,
-        #[serde(default, skip_serializing_if = "Option::is_none")]
-        pub collection_name: Option<String>,
-    }
-    impl From<&InferSchemaBody> for InferSchemaBody {
-        fn from(value: &InferSchemaBody) -> Self {
-            value.clone()
-        }
-    }
-    impl InferSchemaBody {
-        pub fn builder() -> builder::InferSchemaBody {
-            Default::default()
-        }
-    }
-    ///InferSchemaResponse
-    ///
-    /// <details><summary>JSON schema</summary>
-    ///
-    /// ```json
-    /**{
-  "type": "object",
-  "required": [
-    "inferred_schema"
-  ],
-  "properties": {
-    "inferred_schema": {
-      "type": "object",
-      "required": [
-        "nullability",
-        "types"
-      ],
-      "properties": {
-        "nullability": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "boolean"
-          }
-        },
-        "types": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "String",
-                "Number",
-                "Boolean",
-                "Array",
-                "Object"
-              ]
-            },
-            "uniqueItems": true
-          }
-        }
-      }
-    }
-  }
-}*/
-    /// ```
-    /// </details>
-    #[derive(Clone, Debug, Deserialize, Serialize)]
-    pub struct InferSchemaResponse {
-        pub inferred_schema: InferSchemaResponseInferredSchema,
-    }
-    impl From<&InferSchemaResponse> for InferSchemaResponse {
-        fn from(value: &InferSchemaResponse) -> Self {
-            value.clone()
-        }
-    }
-    impl InferSchemaResponse {
-        pub fn builder() -> builder::InferSchemaResponse {
-            Default::default()
-        }
-    }
-    ///InferSchemaResponseInferredSchema
-    ///
-    /// <details><summary>JSON schema</summary>
-    ///
-    /// ```json
-    /**{
-  "type": "object",
-  "required": [
-    "nullability",
-    "types"
-  ],
-  "properties": {
-    "nullability": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "boolean"
-      }
-    },
-    "types": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "enum": [
-            "String",
-            "Number",
-            "Boolean",
-            "Array",
-            "Object"
-          ]
-        },
-        "uniqueItems": true
-      }
-    }
-  }
-}*/
-    /// ```
-    /// </details>
-    #[derive(Clone, Debug, Deserialize, Serialize)]
-    pub struct InferSchemaResponseInferredSchema {
-        pub nullability: std::collections::HashMap<String, bool>,
-        pub types: std::collections::HashMap<
-            String,
-            Vec<InferSchemaResponseInferredSchemaTypesValueItem>,
-        >,
-    }
-    impl From<&InferSchemaResponseInferredSchema> for InferSchemaResponseInferredSchema {
-        fn from(value: &InferSchemaResponseInferredSchema) -> Self {
-            value.clone()
-        }
-    }
-    impl InferSchemaResponseInferredSchema {
-        pub fn builder() -> builder::InferSchemaResponseInferredSchema {
-            Default::default()
-        }
-    }
-    ///InferSchemaResponseInferredSchemaTypesValueItem
-    ///
-    /// <details><summary>JSON schema</summary>
-    ///
-    /// ```json
-    /**{
-  "type": "string",
-  "enum": [
-    "String",
-    "Number",
-    "Boolean",
-    "Array",
-    "Object"
-  ]
-}*/
-    /// ```
-    /// </details>
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        Deserialize,
-        Eq,
-        Hash,
-        Ord,
-        PartialEq,
-        PartialOrd,
-        Serialize
-    )]
-    pub enum InferSchemaResponseInferredSchemaTypesValueItem {
-        String,
-        Number,
-        Boolean,
-        Array,
-        Object,
-    }
-    impl From<&InferSchemaResponseInferredSchemaTypesValueItem>
-    for InferSchemaResponseInferredSchemaTypesValueItem {
-        fn from(value: &InferSchemaResponseInferredSchemaTypesValueItem) -> Self {
-            value.clone()
-        }
-    }
-    impl ToString for InferSchemaResponseInferredSchemaTypesValueItem {
-        fn to_string(&self) -> String {
-            match *self {
-                Self::String => "String".to_string(),
-                Self::Number => "Number".to_string(),
-                Self::Boolean => "Boolean".to_string(),
-                Self::Array => "Array".to_string(),
-                Self::Object => "Object".to_string(),
-            }
-        }
-    }
-    impl std::str::FromStr for InferSchemaResponseInferredSchemaTypesValueItem {
-        type Err = &'static str;
-        fn from_str(value: &str) -> Result<Self, &'static str> {
-            match value {
-                "String" => Ok(Self::String),
-                "Number" => Ok(Self::Number),
-                "Boolean" => Ok(Self::Boolean),
-                "Array" => Ok(Self::Array),
-                "Object" => Ok(Self::Object),
-                _ => Err("invalid value"),
-            }
-        }
-    }
-    impl std::convert::TryFrom<&str>
-    for InferSchemaResponseInferredSchemaTypesValueItem {
-        type Error = &'static str;
-        fn try_from(value: &str) -> Result<Self, &'static str> {
-            value.parse()
-        }
-    }
-    impl std::convert::TryFrom<&String>
-    for InferSchemaResponseInferredSchemaTypesValueItem {
-        type Error = &'static str;
-        fn try_from(value: &String) -> Result<Self, &'static str> {
-            value.parse()
-        }
-    }
-    impl std::convert::TryFrom<String>
-    for InferSchemaResponseInferredSchemaTypesValueItem {
-        type Error = &'static str;
-        fn try_from(value: String) -> Result<Self, &'static str> {
-            value.parse()
-        }
-    }
     ///QueryDocumentsBody
     ///
     /// <details><summary>JSON schema</summary>
@@ -358,6 +111,13 @@ pub mod types {
           ]
         }
       ]
+    },
+    "top_k": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0.0
     }
   }
 }*/
@@ -385,6 +145,8 @@ pub mod types {
         pub text_search_weight: Option<f32>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub tokenizer_type: Option<QueryDocumentsBodyTokenizerType>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub top_k: Option<u64>,
     }
     impl From<&QueryDocumentsBody> for QueryDocumentsBody {
         fn from(value: &QueryDocumentsBody) -> Self {
@@ -631,7 +393,26 @@ pub mod types {
     },
     "results": {
       "type": "array",
-      "items": {}
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "metadata",
+          "score"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          },
+          "score": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      }
     },
     "sql": {
       "type": [
@@ -648,7 +429,7 @@ pub mod types {
         pub collection_id: uuid::Uuid,
         pub distance_metric: QueryDocumentsResponseDistanceMetric,
         pub result_count: u64,
-        pub results: Vec<serde_json::Value>,
+        pub results: Vec<QueryDocumentsResponseResultsItem>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub sql: Option<String>,
     }
@@ -743,6 +524,49 @@ pub mod types {
         type Error = &'static str;
         fn try_from(value: String) -> Result<Self, &'static str> {
             value.parse()
+        }
+    }
+    ///QueryDocumentsResponseResultsItem
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    /**{
+  "type": "object",
+  "required": [
+    "id",
+    "metadata",
+    "score"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "score": {
+      "type": "number",
+      "format": "float"
+    }
+  }
+}*/
+    /// ```
+    /// </details>
+    #[derive(Clone, Debug, Deserialize, Serialize)]
+    pub struct QueryDocumentsResponseResultsItem {
+        pub id: String,
+        pub metadata: serde_json::Map<String, serde_json::Value>,
+        pub score: f32,
+    }
+    impl From<&QueryDocumentsResponseResultsItem> for QueryDocumentsResponseResultsItem {
+        fn from(value: &QueryDocumentsResponseResultsItem) -> Self {
+            value.clone()
+        }
+    }
+    impl QueryDocumentsResponseResultsItem {
+        pub fn builder() -> builder::QueryDocumentsResponseResultsItem {
+            Default::default()
         }
     }
     ///QueryRequest
@@ -849,6 +673,13 @@ pub mod types {
           ]
         }
       ]
+    },
+    "top_k": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0.0
     }
   }
 }*/
@@ -876,6 +707,8 @@ pub mod types {
         pub text_search_weight: Option<f32>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub tokenizer_type: Option<QueryRequestTokenizerType>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub top_k: Option<u64>,
     }
     impl From<&QueryRequest> for QueryRequest {
         fn from(value: &QueryRequest) -> Self {
@@ -1091,186 +924,6 @@ pub mod types {
     }
     pub mod builder {
         #[derive(Clone, Debug)]
-        pub struct InferSchemaBody {
-            collection_id: Result<Option<uuid::Uuid>, String>,
-            collection_name: Result<Option<String>, String>,
-        }
-        impl Default for InferSchemaBody {
-            fn default() -> Self {
-                Self {
-                    collection_id: Ok(Default::default()),
-                    collection_name: Ok(Default::default()),
-                }
-            }
-        }
-        impl InferSchemaBody {
-            pub fn collection_id<T>(mut self, value: T) -> Self
-            where
-                T: std::convert::TryInto<Option<uuid::Uuid>>,
-                T::Error: std::fmt::Display,
-            {
-                self
-                    .collection_id = value
-                    .try_into()
-                    .map_err(|e| {
-                        format!(
-                            "error converting supplied value for collection_id: {}", e
-                        )
-                    });
-                self
-            }
-            pub fn collection_name<T>(mut self, value: T) -> Self
-            where
-                T: std::convert::TryInto<Option<String>>,
-                T::Error: std::fmt::Display,
-            {
-                self
-                    .collection_name = value
-                    .try_into()
-                    .map_err(|e| {
-                        format!(
-                            "error converting supplied value for collection_name: {}", e
-                        )
-                    });
-                self
-            }
-        }
-        impl std::convert::TryFrom<InferSchemaBody> for super::InferSchemaBody {
-            type Error = String;
-            fn try_from(value: InferSchemaBody) -> Result<Self, String> {
-                Ok(Self {
-                    collection_id: value.collection_id?,
-                    collection_name: value.collection_name?,
-                })
-            }
-        }
-        impl From<super::InferSchemaBody> for InferSchemaBody {
-            fn from(value: super::InferSchemaBody) -> Self {
-                Self {
-                    collection_id: Ok(value.collection_id),
-                    collection_name: Ok(value.collection_name),
-                }
-            }
-        }
-        #[derive(Clone, Debug)]
-        pub struct InferSchemaResponse {
-            inferred_schema: Result<super::InferSchemaResponseInferredSchema, String>,
-        }
-        impl Default for InferSchemaResponse {
-            fn default() -> Self {
-                Self {
-                    inferred_schema: Err(
-                        "no value supplied for inferred_schema".to_string(),
-                    ),
-                }
-            }
-        }
-        impl InferSchemaResponse {
-            pub fn inferred_schema<T>(mut self, value: T) -> Self
-            where
-                T: std::convert::TryInto<super::InferSchemaResponseInferredSchema>,
-                T::Error: std::fmt::Display,
-            {
-                self
-                    .inferred_schema = value
-                    .try_into()
-                    .map_err(|e| {
-                        format!(
-                            "error converting supplied value for inferred_schema: {}", e
-                        )
-                    });
-                self
-            }
-        }
-        impl std::convert::TryFrom<InferSchemaResponse> for super::InferSchemaResponse {
-            type Error = String;
-            fn try_from(value: InferSchemaResponse) -> Result<Self, String> {
-                Ok(Self {
-                    inferred_schema: value.inferred_schema?,
-                })
-            }
-        }
-        impl From<super::InferSchemaResponse> for InferSchemaResponse {
-            fn from(value: super::InferSchemaResponse) -> Self {
-                Self {
-                    inferred_schema: Ok(value.inferred_schema),
-                }
-            }
-        }
-        #[derive(Clone, Debug)]
-        pub struct InferSchemaResponseInferredSchema {
-            nullability: Result<std::collections::HashMap<String, bool>, String>,
-            types: Result<
-                std::collections::HashMap<
-                    String,
-                    Vec<super::InferSchemaResponseInferredSchemaTypesValueItem>,
-                >,
-                String,
-            >,
-        }
-        impl Default for InferSchemaResponseInferredSchema {
-            fn default() -> Self {
-                Self {
-                    nullability: Err("no value supplied for nullability".to_string()),
-                    types: Err("no value supplied for types".to_string()),
-                }
-            }
-        }
-        impl InferSchemaResponseInferredSchema {
-            pub fn nullability<T>(mut self, value: T) -> Self
-            where
-                T: std::convert::TryInto<std::collections::HashMap<String, bool>>,
-                T::Error: std::fmt::Display,
-            {
-                self
-                    .nullability = value
-                    .try_into()
-                    .map_err(|e| {
-                        format!("error converting supplied value for nullability: {}", e)
-                    });
-                self
-            }
-            pub fn types<T>(mut self, value: T) -> Self
-            where
-                T: std::convert::TryInto<
-                    std::collections::HashMap<
-                        String,
-                        Vec<super::InferSchemaResponseInferredSchemaTypesValueItem>,
-                    >,
-                >,
-                T::Error: std::fmt::Display,
-            {
-                self
-                    .types = value
-                    .try_into()
-                    .map_err(|e| {
-                        format!("error converting supplied value for types: {}", e)
-                    });
-                self
-            }
-        }
-        impl std::convert::TryFrom<InferSchemaResponseInferredSchema>
-        for super::InferSchemaResponseInferredSchema {
-            type Error = String;
-            fn try_from(
-                value: InferSchemaResponseInferredSchema,
-            ) -> Result<Self, String> {
-                Ok(Self {
-                    nullability: value.nullability?,
-                    types: value.types?,
-                })
-            }
-        }
-        impl From<super::InferSchemaResponseInferredSchema>
-        for InferSchemaResponseInferredSchema {
-            fn from(value: super::InferSchemaResponseInferredSchema) -> Self {
-                Self {
-                    nullability: Ok(value.nullability),
-                    types: Ok(value.types),
-                }
-            }
-        }
-        #[derive(Clone, Debug)]
         pub struct QueryDocumentsBody {
             collection_id: Result<Option<uuid::Uuid>, String>,
             collection_name: Result<Option<String>, String>,
@@ -1291,6 +944,7 @@ pub mod types {
                 Option<super::QueryDocumentsBodyTokenizerType>,
                 String,
             >,
+            top_k: Result<Option<u64>, String>,
         }
         impl Default for QueryDocumentsBody {
             fn default() -> Self {
@@ -1305,6 +959,7 @@ pub mod types {
                     text_search_query: Ok(Default::default()),
                     text_search_weight: Ok(Default::default()),
                     tokenizer_type: Ok(Default::default()),
+                    top_k: Ok(Default::default()),
                 }
             }
         }
@@ -1462,6 +1117,19 @@ pub mod types {
                     });
                 self
             }
+            pub fn top_k<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<u64>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .top_k = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for top_k: {}", e)
+                    });
+                self
+            }
         }
         impl std::convert::TryFrom<QueryDocumentsBody> for super::QueryDocumentsBody {
             type Error = String;
@@ -1477,6 +1145,7 @@ pub mod types {
                     text_search_query: value.text_search_query?,
                     text_search_weight: value.text_search_weight?,
                     tokenizer_type: value.tokenizer_type?,
+                    top_k: value.top_k?,
                 })
             }
         }
@@ -1493,6 +1162,7 @@ pub mod types {
                     text_search_query: Ok(value.text_search_query),
                     text_search_weight: Ok(value.text_search_weight),
                     tokenizer_type: Ok(value.tokenizer_type),
+                    top_k: Ok(value.top_k),
                 }
             }
         }
@@ -1567,7 +1237,7 @@ pub mod types {
             collection_id: Result<uuid::Uuid, String>,
             distance_metric: Result<super::QueryDocumentsResponseDistanceMetric, String>,
             result_count: Result<u64, String>,
-            results: Result<Vec<serde_json::Value>, String>,
+            results: Result<Vec<super::QueryDocumentsResponseResultsItem>, String>,
             sql: Result<Option<String>, String>,
         }
         impl Default for QueryDocumentsResponse {
@@ -1633,7 +1303,7 @@ pub mod types {
             }
             pub fn results<T>(mut self, value: T) -> Self
             where
-                T: std::convert::TryInto<Vec<serde_json::Value>>,
+                T: std::convert::TryInto<Vec<super::QueryDocumentsResponseResultsItem>>,
                 T::Error: std::fmt::Display,
             {
                 self
@@ -1683,6 +1353,85 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct QueryDocumentsResponseResultsItem {
+            id: Result<String, String>,
+            metadata: Result<serde_json::Map<String, serde_json::Value>, String>,
+            score: Result<f32, String>,
+        }
+        impl Default for QueryDocumentsResponseResultsItem {
+            fn default() -> Self {
+                Self {
+                    id: Err("no value supplied for id".to_string()),
+                    metadata: Err("no value supplied for metadata".to_string()),
+                    score: Err("no value supplied for score".to_string()),
+                }
+            }
+        }
+        impl QueryDocumentsResponseResultsItem {
+            pub fn id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<String>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for id: {}", e)
+                    });
+                self
+            }
+            pub fn metadata<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<serde_json::Map<String, serde_json::Value>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .metadata = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for metadata: {}", e)
+                    });
+                self
+            }
+            pub fn score<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<f32>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .score = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for score: {}", e)
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<QueryDocumentsResponseResultsItem>
+        for super::QueryDocumentsResponseResultsItem {
+            type Error = String;
+            fn try_from(
+                value: QueryDocumentsResponseResultsItem,
+            ) -> Result<Self, String> {
+                Ok(Self {
+                    id: value.id?,
+                    metadata: value.metadata?,
+                    score: value.score?,
+                })
+            }
+        }
+        impl From<super::QueryDocumentsResponseResultsItem>
+        for QueryDocumentsResponseResultsItem {
+            fn from(value: super::QueryDocumentsResponseResultsItem) -> Self {
+                Self {
+                    id: Ok(value.id),
+                    metadata: Ok(value.metadata),
+                    score: Ok(value.score),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct QueryRequest {
             collection_id: Result<Option<uuid::Uuid>, String>,
             collection_name: Result<Option<String>, String>,
@@ -1694,6 +1443,7 @@ pub mod types {
             text_search_query: Result<Option<Vec<String>>, String>,
             text_search_weight: Result<Option<f32>, String>,
             tokenizer_type: Result<Option<super::QueryRequestTokenizerType>, String>,
+            top_k: Result<Option<u64>, String>,
         }
         impl Default for QueryRequest {
             fn default() -> Self {
@@ -1708,6 +1458,7 @@ pub mod types {
                     text_search_query: Ok(Default::default()),
                     text_search_weight: Ok(Default::default()),
                     tokenizer_type: Ok(Default::default()),
+                    top_k: Ok(Default::default()),
                 }
             }
         }
@@ -1861,6 +1612,19 @@ pub mod types {
                     });
                 self
             }
+            pub fn top_k<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<u64>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .top_k = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for top_k: {}", e)
+                    });
+                self
+            }
         }
         impl std::convert::TryFrom<QueryRequest> for super::QueryRequest {
             type Error = String;
@@ -1876,6 +1640,7 @@ pub mod types {
                     text_search_query: value.text_search_query?,
                     text_search_weight: value.text_search_weight?,
                     tokenizer_type: value.tokenizer_type?,
+                    top_k: value.top_k?,
                 })
             }
         }
@@ -1892,6 +1657,7 @@ pub mod types {
                     text_search_query: Ok(value.text_search_query),
                     text_search_weight: Ok(value.text_search_weight),
                     tokenizer_type: Ok(value.tokenizer_type),
+                    top_k: Ok(value.top_k),
                 }
             }
         }
@@ -2015,17 +1781,6 @@ impl Client {
     }
 }
 impl Client {
-    /**Sends a `POST` request to `/api/v1/infer_schema`
-
-```ignore
-let response = client.infer_schema()
-    .body(body)
-    .send()
-    .await;
-```*/
-    pub fn infer_schema(&self) -> builder::InferSchema {
-        builder::InferSchema::new(self)
-    }
     /**Sends a `POST` request to `/api/v1/query`
 
 ```ignore
@@ -2045,72 +1800,6 @@ pub mod builder {
         encode_path, ByteStream, Error, HeaderMap, HeaderValue, RequestBuilderExt,
         ResponseValue,
     };
-    /**Builder for [`Client::infer_schema`]
-
-[`Client::infer_schema`]: super::Client::infer_schema*/
-    #[derive(Debug, Clone)]
-    pub struct InferSchema<'a> {
-        client: &'a super::Client,
-        body: Result<types::builder::InferSchemaBody, String>,
-    }
-    impl<'a> InferSchema<'a> {
-        pub fn new(client: &'a super::Client) -> Self {
-            Self {
-                client: client,
-                body: Ok(types::builder::InferSchemaBody::default()),
-            }
-        }
-        pub fn body<V>(mut self, value: V) -> Self
-        where
-            V: std::convert::TryInto<types::InferSchemaBody>,
-            <V as std::convert::TryInto<
-                types::InferSchemaBody,
-            >>::Error: std::fmt::Display,
-        {
-            self
-                .body = value
-                .try_into()
-                .map(From::from)
-                .map_err(|s| {
-                    format!("conversion to `InferSchemaBody` for body failed: {}", s)
-                });
-            self
-        }
-        pub fn body_map<F>(mut self, f: F) -> Self
-        where
-            F: std::ops::FnOnce(
-                types::builder::InferSchemaBody,
-            ) -> types::builder::InferSchemaBody,
-        {
-            self.body = self.body.map(f);
-            self
-        }
-        ///Sends a `POST` request to `/api/v1/infer_schema`
-        pub async fn send(
-            self,
-        ) -> Result<ResponseValue<types::InferSchemaResponse>, Error<()>> {
-            let Self { client, body } = self;
-            let body = body
-                .and_then(std::convert::TryInto::<types::InferSchemaBody>::try_into)
-                .map_err(Error::InvalidRequest)?;
-            let url = format!("{}/api/v1/infer_schema", client.baseurl,);
-            let request = client
-                .client
-                .post(url)
-                .header(
-                    reqwest::header::ACCEPT,
-                    reqwest::header::HeaderValue::from_static("application/json"),
-                )
-                .json(&body)
-                .build()?;
-            let result = client.client.execute(request).await;
-            let response = result?;
-            match response.status().as_u16() {
-                200u16 => ResponseValue::from_response(response).await,
-                _ => Err(Error::UnexpectedResponse(response)),
-            }
-        }
-    }
     /**Builder for [`Client::query_documents`]
 
 [`Client::query_documents`]: super::Client::query_documents*/
