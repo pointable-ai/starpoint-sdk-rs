@@ -27,7 +27,12 @@ pub mod types {
           "text"
         ],
         "properties": {
-          "metadata": {},
+          "metadata": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
           "text": {
             "type": "string"
           }
@@ -67,7 +72,12 @@ pub mod types {
     "text"
   ],
   "properties": {
-    "metadata": {},
+    "metadata": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
     "text": {
       "type": "string"
     }
@@ -78,7 +88,7 @@ pub mod types {
     #[derive(Clone, Debug, Deserialize, Serialize)]
     pub struct EmbedBodyItemsItem {
         #[serde(default, skip_serializing_if = "Option::is_none")]
-        pub metadata: Option<serde_json::Value>,
+        pub metadata: Option<serde_json::Map<String, serde_json::Value>>,
         pub text: String,
     }
     impl From<&EmbedBodyItemsItem> for EmbedBodyItemsItem {
@@ -122,7 +132,12 @@ pub mod types {
               "format": "float"
             }
           },
-          "metadata": {},
+          "metadata": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
           "text": {
             "type": "string"
           }
@@ -167,7 +182,12 @@ pub mod types {
         "format": "float"
       }
     },
-    "metadata": {},
+    "metadata": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
     "text": {
       "type": "string"
     }
@@ -179,7 +199,7 @@ pub mod types {
     pub struct EmbedResponseResultsItem {
         pub embedding: Vec<f32>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
-        pub metadata: Option<serde_json::Value>,
+        pub metadata: Option<serde_json::Map<String, serde_json::Value>>,
         pub text: String,
     }
     impl From<&EmbedResponseResultsItem> for EmbedResponseResultsItem {
@@ -247,7 +267,12 @@ pub mod types {
           "text"
         ],
         "properties": {
-          "metadata": {},
+          "metadata": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
           "text": {
             "type": "string"
           }
@@ -287,7 +312,12 @@ pub mod types {
     "text"
   ],
   "properties": {
-    "metadata": {},
+    "metadata": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
     "text": {
       "type": "string"
     }
@@ -298,7 +328,7 @@ pub mod types {
     #[derive(Clone, Debug, Deserialize, Serialize)]
     pub struct TextEmbeddingRequestItemsItem {
         #[serde(default, skip_serializing_if = "Option::is_none")]
-        pub metadata: Option<serde_json::Value>,
+        pub metadata: Option<serde_json::Map<String, serde_json::Value>>,
         pub text: String,
     }
     impl From<&TextEmbeddingRequestItemsItem> for TextEmbeddingRequestItemsItem {
@@ -372,7 +402,7 @@ pub mod types {
         }
         #[derive(Clone, Debug)]
         pub struct EmbedBodyItemsItem {
-            metadata: Result<Option<serde_json::Value>, String>,
+            metadata: Result<Option<serde_json::Map<String, serde_json::Value>>, String>,
             text: Result<String, String>,
         }
         impl Default for EmbedBodyItemsItem {
@@ -386,7 +416,9 @@ pub mod types {
         impl EmbedBodyItemsItem {
             pub fn metadata<T>(mut self, value: T) -> Self
             where
-                T: std::convert::TryInto<Option<serde_json::Value>>,
+                T: std::convert::TryInto<
+                    Option<serde_json::Map<String, serde_json::Value>>,
+                >,
                 T::Error: std::fmt::Display,
             {
                 self
@@ -489,7 +521,7 @@ pub mod types {
         #[derive(Clone, Debug)]
         pub struct EmbedResponseResultsItem {
             embedding: Result<Vec<f32>, String>,
-            metadata: Result<Option<serde_json::Value>, String>,
+            metadata: Result<Option<serde_json::Map<String, serde_json::Value>>, String>,
             text: Result<String, String>,
         }
         impl Default for EmbedResponseResultsItem {
@@ -517,7 +549,9 @@ pub mod types {
             }
             pub fn metadata<T>(mut self, value: T) -> Self
             where
-                T: std::convert::TryInto<Option<serde_json::Value>>,
+                T: std::convert::TryInto<
+                    Option<serde_json::Map<String, serde_json::Value>>,
+                >,
                 T::Error: std::fmt::Display,
             {
                 self
@@ -664,7 +698,7 @@ pub mod types {
         }
         #[derive(Clone, Debug)]
         pub struct TextEmbeddingRequestItemsItem {
-            metadata: Result<Option<serde_json::Value>, String>,
+            metadata: Result<Option<serde_json::Map<String, serde_json::Value>>, String>,
             text: Result<String, String>,
         }
         impl Default for TextEmbeddingRequestItemsItem {
@@ -678,7 +712,9 @@ pub mod types {
         impl TextEmbeddingRequestItemsItem {
             pub fn metadata<T>(mut self, value: T) -> Self
             where
-                T: std::convert::TryInto<Option<serde_json::Value>>,
+                T: std::convert::TryInto<
+                    Option<serde_json::Map<String, serde_json::Value>>,
+                >,
                 T::Error: std::fmt::Display,
             {
                 self

@@ -41,6 +41,12 @@ pub mod types {
         }
       ]
     },
+    "no_cache": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
     "params": {
       "type": [
         "array",
@@ -131,6 +137,8 @@ pub mod types {
         pub collection_name: Option<String>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub distance_metric: Option<QueryDocumentsBodyDistanceMetric>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub no_cache: Option<bool>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub params: Option<Vec<serde_json::Value>>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -603,6 +611,12 @@ pub mod types {
         }
       ]
     },
+    "no_cache": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
     "params": {
       "type": [
         "array",
@@ -693,6 +707,8 @@ pub mod types {
         pub collection_name: Option<String>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub distance_metric: Option<QueryRequestDistanceMetric>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub no_cache: Option<bool>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub params: Option<Vec<serde_json::Value>>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -931,6 +947,7 @@ pub mod types {
                 Option<super::QueryDocumentsBodyDistanceMetric>,
                 String,
             >,
+            no_cache: Result<Option<bool>, String>,
             params: Result<Option<Vec<serde_json::Value>>, String>,
             query_document_id: Result<Option<String>, String>,
             query_embedding: Result<
@@ -952,6 +969,7 @@ pub mod types {
                     collection_id: Ok(Default::default()),
                     collection_name: Ok(Default::default()),
                     distance_metric: Ok(Default::default()),
+                    no_cache: Ok(Default::default()),
                     params: Ok(Default::default()),
                     query_document_id: Ok(Default::default()),
                     query_embedding: Ok(Default::default()),
@@ -1008,6 +1026,19 @@ pub mod types {
                         format!(
                             "error converting supplied value for distance_metric: {}", e
                         )
+                    });
+                self
+            }
+            pub fn no_cache<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<bool>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .no_cache = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for no_cache: {}", e)
                     });
                 self
             }
@@ -1138,6 +1169,7 @@ pub mod types {
                     collection_id: value.collection_id?,
                     collection_name: value.collection_name?,
                     distance_metric: value.distance_metric?,
+                    no_cache: value.no_cache?,
                     params: value.params?,
                     query_document_id: value.query_document_id?,
                     query_embedding: value.query_embedding?,
@@ -1155,6 +1187,7 @@ pub mod types {
                     collection_id: Ok(value.collection_id),
                     collection_name: Ok(value.collection_name),
                     distance_metric: Ok(value.distance_metric),
+                    no_cache: Ok(value.no_cache),
                     params: Ok(value.params),
                     query_document_id: Ok(value.query_document_id),
                     query_embedding: Ok(value.query_embedding),
@@ -1436,6 +1469,7 @@ pub mod types {
             collection_id: Result<Option<uuid::Uuid>, String>,
             collection_name: Result<Option<String>, String>,
             distance_metric: Result<Option<super::QueryRequestDistanceMetric>, String>,
+            no_cache: Result<Option<bool>, String>,
             params: Result<Option<Vec<serde_json::Value>>, String>,
             query_document_id: Result<Option<String>, String>,
             query_embedding: Result<Option<super::QueryRequestQueryEmbedding>, String>,
@@ -1451,6 +1485,7 @@ pub mod types {
                     collection_id: Ok(Default::default()),
                     collection_name: Ok(Default::default()),
                     distance_metric: Ok(Default::default()),
+                    no_cache: Ok(Default::default()),
                     params: Ok(Default::default()),
                     query_document_id: Ok(Default::default()),
                     query_embedding: Ok(Default::default()),
@@ -1505,6 +1540,19 @@ pub mod types {
                         format!(
                             "error converting supplied value for distance_metric: {}", e
                         )
+                    });
+                self
+            }
+            pub fn no_cache<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<bool>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .no_cache = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for no_cache: {}", e)
                     });
                 self
             }
@@ -1633,6 +1681,7 @@ pub mod types {
                     collection_id: value.collection_id?,
                     collection_name: value.collection_name?,
                     distance_metric: value.distance_metric?,
+                    no_cache: value.no_cache?,
                     params: value.params?,
                     query_document_id: value.query_document_id?,
                     query_embedding: value.query_embedding?,
@@ -1650,6 +1699,7 @@ pub mod types {
                     collection_id: Ok(value.collection_id),
                     collection_name: Ok(value.collection_name),
                     distance_metric: Ok(value.distance_metric),
+                    no_cache: Ok(value.no_cache),
                     params: Ok(value.params),
                     query_document_id: Ok(value.query_document_id),
                     query_embedding: Ok(value.query_embedding),

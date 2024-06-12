@@ -930,6 +930,288 @@ pub mod types {
             Default::default()
         }
     }
+    ///UpdateDocumentsBody
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    /**{
+  "type": "object",
+  "required": [
+    "collection_id",
+    "documents"
+  ],
+  "properties": {
+    "collection_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "collection_name": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "embeddings": {
+            "allOf": [
+              {
+                "type": "object",
+                "required": [
+                  "dimensionality",
+                  "values"
+                ],
+                "properties": {
+                  "dimensionality": {
+                    "type": "integer",
+                    "minimum": 0.0
+                  },
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "format": "float"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "metadata": {
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}*/
+    /// ```
+    /// </details>
+    #[derive(Clone, Debug, Deserialize, Serialize)]
+    pub struct UpdateDocumentsBody {
+        pub collection_id: uuid::Uuid,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub collection_name: Option<String>,
+        pub documents: Vec<UpdateDocumentsBodyDocumentsItem>,
+    }
+    impl From<&UpdateDocumentsBody> for UpdateDocumentsBody {
+        fn from(value: &UpdateDocumentsBody) -> Self {
+            value.clone()
+        }
+    }
+    impl UpdateDocumentsBody {
+        pub fn builder() -> builder::UpdateDocumentsBody {
+            Default::default()
+        }
+    }
+    ///UpdateDocumentsBodyDocumentsItem
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    /**{
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "embeddings": {
+      "allOf": [
+        {
+          "type": "object",
+          "required": [
+            "dimensionality",
+            "values"
+          ],
+          "properties": {
+            "dimensionality": {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "float"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "metadata": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  }
+}*/
+    /// ```
+    /// </details>
+    #[derive(Clone, Debug, Deserialize, Serialize)]
+    pub struct UpdateDocumentsBodyDocumentsItem {
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub embeddings: Option<UpdateDocumentsBodyDocumentsItemEmbeddings>,
+        pub id: uuid::Uuid,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub metadata: Option<serde_json::Map<String, serde_json::Value>>,
+    }
+    impl From<&UpdateDocumentsBodyDocumentsItem> for UpdateDocumentsBodyDocumentsItem {
+        fn from(value: &UpdateDocumentsBodyDocumentsItem) -> Self {
+            value.clone()
+        }
+    }
+    impl UpdateDocumentsBodyDocumentsItem {
+        pub fn builder() -> builder::UpdateDocumentsBodyDocumentsItem {
+            Default::default()
+        }
+    }
+    ///UpdateDocumentsBodyDocumentsItemEmbeddings
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    /**{
+  "type": "object",
+  "required": [
+    "dimensionality",
+    "values"
+  ],
+  "properties": {
+    "dimensionality": {
+      "type": "integer",
+      "minimum": 0.0
+    },
+    "values": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "float"
+      }
+    }
+  }
+}*/
+    /// ```
+    /// </details>
+    #[derive(Clone, Debug, Deserialize, Serialize)]
+    pub struct UpdateDocumentsBodyDocumentsItemEmbeddings {
+        pub dimensionality: u64,
+        pub values: Vec<f32>,
+    }
+    impl From<&UpdateDocumentsBodyDocumentsItemEmbeddings>
+    for UpdateDocumentsBodyDocumentsItemEmbeddings {
+        fn from(value: &UpdateDocumentsBodyDocumentsItemEmbeddings) -> Self {
+            value.clone()
+        }
+    }
+    impl UpdateDocumentsBodyDocumentsItemEmbeddings {
+        pub fn builder() -> builder::UpdateDocumentsBodyDocumentsItemEmbeddings {
+            Default::default()
+        }
+    }
+    ///UpdateDocumentsResponse
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    /**{
+  "type": "object",
+  "required": [
+    "collection_id",
+    "documents"
+  ],
+  "properties": {
+    "collection_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      }
+    }
+  }
+}*/
+    /// ```
+    /// </details>
+    #[derive(Clone, Debug, Deserialize, Serialize)]
+    pub struct UpdateDocumentsResponse {
+        pub collection_id: uuid::Uuid,
+        pub documents: Vec<UpdateDocumentsResponseDocumentsItem>,
+    }
+    impl From<&UpdateDocumentsResponse> for UpdateDocumentsResponse {
+        fn from(value: &UpdateDocumentsResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl UpdateDocumentsResponse {
+        pub fn builder() -> builder::UpdateDocumentsResponse {
+            Default::default()
+        }
+    }
+    ///UpdateDocumentsResponseDocumentsItem
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    /**{
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  }
+}*/
+    /// ```
+    /// </details>
+    #[derive(Clone, Debug, Deserialize, Serialize)]
+    pub struct UpdateDocumentsResponseDocumentsItem {
+        pub id: uuid::Uuid,
+    }
+    impl From<&UpdateDocumentsResponseDocumentsItem>
+    for UpdateDocumentsResponseDocumentsItem {
+        fn from(value: &UpdateDocumentsResponseDocumentsItem) -> Self {
+            value.clone()
+        }
+    }
+    impl UpdateDocumentsResponseDocumentsItem {
+        pub fn builder() -> builder::UpdateDocumentsResponseDocumentsItem {
+            Default::default()
+        }
+    }
     pub mod builder {
         #[derive(Clone, Debug)]
         pub struct ChangeCollectionNameBody {
@@ -2191,6 +2473,345 @@ pub mod types {
                 }
             }
         }
+        #[derive(Clone, Debug)]
+        pub struct UpdateDocumentsBody {
+            collection_id: Result<uuid::Uuid, String>,
+            collection_name: Result<Option<String>, String>,
+            documents: Result<Vec<super::UpdateDocumentsBodyDocumentsItem>, String>,
+        }
+        impl Default for UpdateDocumentsBody {
+            fn default() -> Self {
+                Self {
+                    collection_id: Err(
+                        "no value supplied for collection_id".to_string(),
+                    ),
+                    collection_name: Ok(Default::default()),
+                    documents: Err("no value supplied for documents".to_string()),
+                }
+            }
+        }
+        impl UpdateDocumentsBody {
+            pub fn collection_id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<uuid::Uuid>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_id: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn collection_name<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Option<String>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_name = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_name: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn documents<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Vec<super::UpdateDocumentsBodyDocumentsItem>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .documents = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for documents: {}", e)
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<UpdateDocumentsBody> for super::UpdateDocumentsBody {
+            type Error = String;
+            fn try_from(value: UpdateDocumentsBody) -> Result<Self, String> {
+                Ok(Self {
+                    collection_id: value.collection_id?,
+                    collection_name: value.collection_name?,
+                    documents: value.documents?,
+                })
+            }
+        }
+        impl From<super::UpdateDocumentsBody> for UpdateDocumentsBody {
+            fn from(value: super::UpdateDocumentsBody) -> Self {
+                Self {
+                    collection_id: Ok(value.collection_id),
+                    collection_name: Ok(value.collection_name),
+                    documents: Ok(value.documents),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct UpdateDocumentsBodyDocumentsItem {
+            embeddings: Result<
+                Option<super::UpdateDocumentsBodyDocumentsItemEmbeddings>,
+                String,
+            >,
+            id: Result<uuid::Uuid, String>,
+            metadata: Result<Option<serde_json::Map<String, serde_json::Value>>, String>,
+        }
+        impl Default for UpdateDocumentsBodyDocumentsItem {
+            fn default() -> Self {
+                Self {
+                    embeddings: Ok(Default::default()),
+                    id: Err("no value supplied for id".to_string()),
+                    metadata: Ok(Default::default()),
+                }
+            }
+        }
+        impl UpdateDocumentsBodyDocumentsItem {
+            pub fn embeddings<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<
+                    Option<super::UpdateDocumentsBodyDocumentsItemEmbeddings>,
+                >,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .embeddings = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for embeddings: {}", e)
+                    });
+                self
+            }
+            pub fn id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<uuid::Uuid>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for id: {}", e)
+                    });
+                self
+            }
+            pub fn metadata<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<
+                    Option<serde_json::Map<String, serde_json::Value>>,
+                >,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .metadata = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for metadata: {}", e)
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<UpdateDocumentsBodyDocumentsItem>
+        for super::UpdateDocumentsBodyDocumentsItem {
+            type Error = String;
+            fn try_from(
+                value: UpdateDocumentsBodyDocumentsItem,
+            ) -> Result<Self, String> {
+                Ok(Self {
+                    embeddings: value.embeddings?,
+                    id: value.id?,
+                    metadata: value.metadata?,
+                })
+            }
+        }
+        impl From<super::UpdateDocumentsBodyDocumentsItem>
+        for UpdateDocumentsBodyDocumentsItem {
+            fn from(value: super::UpdateDocumentsBodyDocumentsItem) -> Self {
+                Self {
+                    embeddings: Ok(value.embeddings),
+                    id: Ok(value.id),
+                    metadata: Ok(value.metadata),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct UpdateDocumentsBodyDocumentsItemEmbeddings {
+            dimensionality: Result<u64, String>,
+            values: Result<Vec<f32>, String>,
+        }
+        impl Default for UpdateDocumentsBodyDocumentsItemEmbeddings {
+            fn default() -> Self {
+                Self {
+                    dimensionality: Err(
+                        "no value supplied for dimensionality".to_string(),
+                    ),
+                    values: Err("no value supplied for values".to_string()),
+                }
+            }
+        }
+        impl UpdateDocumentsBodyDocumentsItemEmbeddings {
+            pub fn dimensionality<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<u64>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .dimensionality = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for dimensionality: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn values<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<Vec<f32>>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .values = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for values: {}", e)
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<UpdateDocumentsBodyDocumentsItemEmbeddings>
+        for super::UpdateDocumentsBodyDocumentsItemEmbeddings {
+            type Error = String;
+            fn try_from(
+                value: UpdateDocumentsBodyDocumentsItemEmbeddings,
+            ) -> Result<Self, String> {
+                Ok(Self {
+                    dimensionality: value.dimensionality?,
+                    values: value.values?,
+                })
+            }
+        }
+        impl From<super::UpdateDocumentsBodyDocumentsItemEmbeddings>
+        for UpdateDocumentsBodyDocumentsItemEmbeddings {
+            fn from(value: super::UpdateDocumentsBodyDocumentsItemEmbeddings) -> Self {
+                Self {
+                    dimensionality: Ok(value.dimensionality),
+                    values: Ok(value.values),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct UpdateDocumentsResponse {
+            collection_id: Result<uuid::Uuid, String>,
+            documents: Result<Vec<super::UpdateDocumentsResponseDocumentsItem>, String>,
+        }
+        impl Default for UpdateDocumentsResponse {
+            fn default() -> Self {
+                Self {
+                    collection_id: Err(
+                        "no value supplied for collection_id".to_string(),
+                    ),
+                    documents: Err("no value supplied for documents".to_string()),
+                }
+            }
+        }
+        impl UpdateDocumentsResponse {
+            pub fn collection_id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<uuid::Uuid>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .collection_id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!(
+                            "error converting supplied value for collection_id: {}", e
+                        )
+                    });
+                self
+            }
+            pub fn documents<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<
+                    Vec<super::UpdateDocumentsResponseDocumentsItem>,
+                >,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .documents = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for documents: {}", e)
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<UpdateDocumentsResponse>
+        for super::UpdateDocumentsResponse {
+            type Error = String;
+            fn try_from(value: UpdateDocumentsResponse) -> Result<Self, String> {
+                Ok(Self {
+                    collection_id: value.collection_id?,
+                    documents: value.documents?,
+                })
+            }
+        }
+        impl From<super::UpdateDocumentsResponse> for UpdateDocumentsResponse {
+            fn from(value: super::UpdateDocumentsResponse) -> Self {
+                Self {
+                    collection_id: Ok(value.collection_id),
+                    documents: Ok(value.documents),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct UpdateDocumentsResponseDocumentsItem {
+            id: Result<uuid::Uuid, String>,
+        }
+        impl Default for UpdateDocumentsResponseDocumentsItem {
+            fn default() -> Self {
+                Self {
+                    id: Err("no value supplied for id".to_string()),
+                }
+            }
+        }
+        impl UpdateDocumentsResponseDocumentsItem {
+            pub fn id<T>(mut self, value: T) -> Self
+            where
+                T: std::convert::TryInto<uuid::Uuid>,
+                T::Error: std::fmt::Display,
+            {
+                self
+                    .id = value
+                    .try_into()
+                    .map_err(|e| {
+                        format!("error converting supplied value for id: {}", e)
+                    });
+                self
+            }
+        }
+        impl std::convert::TryFrom<UpdateDocumentsResponseDocumentsItem>
+        for super::UpdateDocumentsResponseDocumentsItem {
+            type Error = String;
+            fn try_from(
+                value: UpdateDocumentsResponseDocumentsItem,
+            ) -> Result<Self, String> {
+                Ok(Self { id: value.id? })
+            }
+        }
+        impl From<super::UpdateDocumentsResponseDocumentsItem>
+        for UpdateDocumentsResponseDocumentsItem {
+            fn from(value: super::UpdateDocumentsResponseDocumentsItem) -> Self {
+                Self { id: Ok(value.id) }
+            }
+        }
     }
 }
 #[derive(Clone, Debug)]
@@ -2302,7 +2923,7 @@ let response = client.create_documents()
     pub fn create_documents(&self) -> builder::CreateDocuments {
         builder::CreateDocuments::new(self)
     }
-    /**Sends a `PATCH` request to `/api/v1/documents`
+    /**Sends a `DELETE` request to `/api/v1/documents`
 
 ```ignore
 let response = client.delete_documents()
@@ -2312,6 +2933,17 @@ let response = client.delete_documents()
 ```*/
     pub fn delete_documents(&self) -> builder::DeleteDocuments {
         builder::DeleteDocuments::new(self)
+    }
+    /**Sends a `PATCH` request to `/api/v1/documents`
+
+```ignore
+let response = client.update_documents()
+    .body(body)
+    .send()
+    .await;
+```*/
+    pub fn update_documents(&self) -> builder::UpdateDocuments {
+        builder::UpdateDocuments::new(self)
     }
     /**Sends a `POST` request to `/api/v1/index`
 
@@ -2677,13 +3309,79 @@ pub mod builder {
             self.body = self.body.map(f);
             self
         }
-        ///Sends a `PATCH` request to `/api/v1/documents`
+        ///Sends a `DELETE` request to `/api/v1/documents`
         pub async fn send(
             self,
         ) -> Result<ResponseValue<types::DeleteDocumentsResponse>, Error<()>> {
             let Self { client, body } = self;
             let body = body
                 .and_then(std::convert::TryInto::<types::DeleteDocumentsBody>::try_into)
+                .map_err(Error::InvalidRequest)?;
+            let url = format!("{}/api/v1/documents", client.baseurl,);
+            let request = client
+                .client
+                .delete(url)
+                .header(
+                    reqwest::header::ACCEPT,
+                    reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .json(&body)
+                .build()?;
+            let result = client.client.execute(request).await;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response(response).await,
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::update_documents`]
+
+[`Client::update_documents`]: super::Client::update_documents*/
+    #[derive(Debug, Clone)]
+    pub struct UpdateDocuments<'a> {
+        client: &'a super::Client,
+        body: Result<types::builder::UpdateDocumentsBody, String>,
+    }
+    impl<'a> UpdateDocuments<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                body: Ok(types::builder::UpdateDocumentsBody::default()),
+            }
+        }
+        pub fn body<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::UpdateDocumentsBody>,
+            <V as std::convert::TryInto<
+                types::UpdateDocumentsBody,
+            >>::Error: std::fmt::Display,
+        {
+            self
+                .body = value
+                .try_into()
+                .map(From::from)
+                .map_err(|s| {
+                    format!("conversion to `UpdateDocumentsBody` for body failed: {}", s)
+                });
+            self
+        }
+        pub fn body_map<F>(mut self, f: F) -> Self
+        where
+            F: std::ops::FnOnce(
+                types::builder::UpdateDocumentsBody,
+            ) -> types::builder::UpdateDocumentsBody,
+        {
+            self.body = self.body.map(f);
+            self
+        }
+        ///Sends a `PATCH` request to `/api/v1/documents`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::UpdateDocumentsResponse>, Error<()>> {
+            let Self { client, body } = self;
+            let body = body
+                .and_then(std::convert::TryInto::<types::UpdateDocumentsBody>::try_into)
                 .map_err(Error::InvalidRequest)?;
             let url = format!("{}/api/v1/documents", client.baseurl,);
             let request = client
