@@ -541,8 +541,7 @@ pub mod types {
         ],
         "properties": {
           "id": {
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           }
         }
       }
@@ -578,8 +577,7 @@ pub mod types {
   ],
   "properties": {
     "id": {
-      "type": "string",
-      "format": "uuid"
+      "type": "string"
     }
   }
 }*/
@@ -587,7 +585,7 @@ pub mod types {
     /// </details>
     #[derive(Clone, Debug, Deserialize, Serialize)]
     pub struct CreateDocumentsResponseDocumentsItem {
-        pub id: uuid::Uuid,
+        pub id: String,
     }
     impl From<&CreateDocumentsResponseDocumentsItem>
     for CreateDocumentsResponseDocumentsItem {
@@ -1953,7 +1951,7 @@ pub mod types {
         }
         #[derive(Clone, Debug)]
         pub struct CreateDocumentsResponseDocumentsItem {
-            id: Result<uuid::Uuid, String>,
+            id: Result<String, String>,
         }
         impl Default for CreateDocumentsResponseDocumentsItem {
             fn default() -> Self {
@@ -1965,7 +1963,7 @@ pub mod types {
         impl CreateDocumentsResponseDocumentsItem {
             pub fn id<T>(mut self, value: T) -> Self
             where
-                T: std::convert::TryInto<uuid::Uuid>,
+                T: std::convert::TryInto<String>,
                 T::Error: std::fmt::Display,
             {
                 self
